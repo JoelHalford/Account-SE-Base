@@ -12,7 +12,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Inject
 	private AccountRepository repo;
-
+	
 	public String getAllAccounts() {
 		LOGGER.info("In AccountServiceImpl getAllAccounts ");
 		return repo.getAllAccounts();
