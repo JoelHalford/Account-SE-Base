@@ -14,10 +14,9 @@ import javax.transaction.Transactional;
 import com.qa.domain.Account;
 import com.qa.util.JSONUtil;
 
-@Transactional(SUPPORTS)
 @Alternative
 @RequestScoped
-public class AccountDBMapRepository implements AccountRepository {
+public class AccountMapRepository implements AccountRepository {
 
 	private HashMap<Long, Account> accountList  = new HashMap<Long, Account>();
 	
@@ -42,9 +41,8 @@ public class AccountDBMapRepository implements AccountRepository {
 	}
 
 	@Override
-	@Transactional(REQUIRED)
-	public String createAccount(String accout) {
-		Account anAccount = util.getObjectForJSON(accout, Account.class);
+	public String createAccount(String account) {
+		Account anAccount = util.getObjectForJSON(account, Account.class);
 		
 //		manager.persist(anAccount);
 		accountList.put(anAccount.getId(), anAccount);
@@ -60,19 +58,20 @@ public class AccountDBMapRepository implements AccountRepository {
 //			accountFromDB = updatedAccount;
 //			manager.merge(accountFromDB);
 //		}
-//		return "{\"message\": \"account sucessfully updated\"}";
 //	}
 	
 	@Override
-	@Transactional(REQUIRED)
-	public String updateAccount(Long id, String secondName) {
+	public String updateAccount(Long id, String account) {
 		
-		accountList.get(id).setSecondName(secondName);
+		Account account1 = util.getObjectForJSON(account, Account.class);
+		
+		accountList.get(id).setSecondName(account1.getSecondName());
+		accountList.get(id).setFirstName(account1.getFirstName());
+		accountList.get(id).setAccountNumber(account1.getAccountNumber());
 		return "{\"message\": \"account updated sucessfully added\"}";
 	}
 
 	@Override
-	@Transactional(REQUIRED)
 	public String deleteAccount(Long id) {
 		
 		accountList.remove(id);
@@ -86,5 +85,4 @@ public class AccountDBMapRepository implements AccountRepository {
 	public void setUtil(JSONUtil util) {
 		this.util = util;
 	}
-
 }
