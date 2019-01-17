@@ -20,8 +20,6 @@ public class AccountMapRepository implements AccountRepository {
 
 	private HashMap<Long, Account> accountList  = new HashMap<Long, Account>();
 	
-	@PersistenceContext(unitName = "primary")
-
 	@Inject
 	private JSONUtil util;
 

@@ -25,14 +25,16 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public String addAccount(String account) {
-		
-		Account account1 = util.getObjectForJSON(account, Account.class);
-		
-		if (account1.getAccountNumber() == "9999")
+				
+		if (util.getObjectForJSON(account, Account.class).getAccountNumber() == "9999")
 		{
 			return "{“message”: “This account is blocked”}";
 		}
-		return repo.createAccount(account);
+		else
+		{
+			return repo.createAccount(account);
+		}
+		
 	}
 
 	@Override
