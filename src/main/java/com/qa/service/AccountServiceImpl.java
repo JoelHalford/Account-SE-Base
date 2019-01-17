@@ -4,7 +4,9 @@ import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 
+import com.qa.domain.Account;
 import com.qa.persistence.repository.AccountRepository;
+import com.qa.util.JSONUtil;
 
 public class AccountServiceImpl implements AccountService {
 
@@ -13,6 +15,9 @@ public class AccountServiceImpl implements AccountService {
 	@Inject
 	private AccountRepository repo;
 	
+	@Inject
+	private JSONUtil util;
+	
 	public String getAllAccounts() {
 		LOGGER.info("In AccountServiceImpl getAllAccounts ");
 		return repo.getAllAccounts();
@@ -20,7 +25,16 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public String addAccount(String account) {
-		return repo.createAccount(account);
+				
+		if (util.getObjectForJSON(account, Account.class).getAccountNumber() == "9999")
+		{
+			return "{“message”: “This account is blocked”}";
+		}
+		else
+		{
+			return repo.createAccount(account);
+		}
+		
 	}
 
 	@Override

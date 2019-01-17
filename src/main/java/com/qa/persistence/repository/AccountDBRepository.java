@@ -18,8 +18,7 @@ import com.qa.util.JSONUtil;
 @Transactional(SUPPORTS)
 @Default
 public class AccountDBRepository implements AccountRepository {
-	
-	//tells manager to look into persistence xml and use the persistence unit called primary
+
 	@PersistenceContext(unitName = "primary")
 	private EntityManager manager;
 
@@ -28,15 +27,8 @@ public class AccountDBRepository implements AccountRepository {
 
 	@Override
 	public String getAllAccounts() {
-				
 		Query query = manager.createQuery("Select a FROM Account a");
-		
 		Collection<Account> accounts = (Collection<Account>) query.getResultList();
-//		for (int i = 0; i < accounts.size(); i++)
-//		{
-//			accountList.put(i, accounts[i]);
-//		}
-//		accountList.put(1, (List) query.getResultList());
 		return util.getJSONForObject(accounts);
 	}
 
@@ -51,6 +43,7 @@ public class AccountDBRepository implements AccountRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String updateAccount(Long id, String accountToUpdate) {
+		System.out.println(accountToUpdate);
 		Account updatedAccount = util.getObjectForJSON(accountToUpdate, Account.class);
 		Account accountFromDB = findAccount(id);
 		if (accountToUpdate != null) {
